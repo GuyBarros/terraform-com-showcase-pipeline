@@ -1,0 +1,17 @@
+jobs:
+ build:
+   permissions:
+     contents: read
+     id-token: write
+   runs-on: self-hosted
+   steps:
+     - uses: actions/checkout@v2
+     - name: Import Secrets
+       uses: hashicorp/vault-action@v2.4.0
+       with:
+         url: https://vault-cluster-private-url.aws.hashicorp.cloud:8200
+         namespace: admin
+         method: jwt
+         role: demo
+         secrets: |
+           kv/data/ci app_secret | APP_SECRET
