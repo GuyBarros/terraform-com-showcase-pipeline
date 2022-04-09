@@ -3,8 +3,8 @@ resource "vault_consul_secret_backend" "app" {
   path        = "consul"
   description = "Manages the Consul backend"
 
-  address = var.consul_address
-  token   = var.consul_token
+  address    = var.consul_address
+  token      = var.consul_token
 }
 
 resource "vault_consul_secret_backend_role" "app" {

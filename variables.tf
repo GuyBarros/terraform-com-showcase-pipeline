@@ -12,6 +12,11 @@ variable "application_name" {
   description = "the Vault Address"
 }
 
+ variable "vault_token" {
+  description = "the Vault Address"
+  sensitive = true
+}
+
  variable "consul_address" {
   description = "the Consul Address"
 }
@@ -21,11 +26,16 @@ variable "application_name" {
   sensitive = true
 }
 
- variable "username" {
+ variable "nomad_address" {
+  description = "the Nomad Address"
+}
+
+
+ variable "tfe_username" {
   description = ""
 }
 
- variable "organization" {
+ variable "tfe_organization" {
   description = ""
 }
 
@@ -55,4 +65,29 @@ variable "github_token_type" {
   type        = string
   description = "Token type for Vault tokens"
   default     = "default-service"
+}
+
+variable "github_provider_token" {
+  type        = string
+  description = "Token for Github provider"
+  sensitive = true
+}
+
+variable "docker_hub_namespace" {
+  type        = string
+  description = "Docker Hub namespace where repo will be created"
+  sensitive = false
+}
+
+variable "docker_hub_username" {
+  type        = string
+  description = "Docker Hub username"
+  sensitive = false
+}
+
+
+variable "docker_hub_password" {
+  type        = string
+  description = "Docker Hub password"
+  sensitive = true
 }

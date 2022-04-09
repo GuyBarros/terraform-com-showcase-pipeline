@@ -1,0 +1,4 @@
+resource "nomad_namespace" "dev" {
+  name        = "dev"
+  description = "Shared development environment."
+}

@@ -19,8 +19,8 @@ vault_namespace = ""
 vault_address = ""
 consul_address = ""
 consul_token = ""
-username = ""
-organization = ""
+tfe_username = ""
+tfe_organization = ""
 tfe_token = ""
 tfe_oauth_token_id= "" # for the CVS set up in TFC, you can get it from the settings page under VCS providers
 ```
