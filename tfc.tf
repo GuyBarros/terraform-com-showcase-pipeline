@@ -1,5 +1,5 @@
 resource "tfe_workspace" "app_ws_dev" {
-  depends_on = [github_repository.app]
+  depends_on = [github_repository.app-dev-enviroment,github_repository_file.tf-dev]
 
   name         = "${var.application_name}-dev"
   organization = var.tfe_organization
@@ -13,42 +13,42 @@ resource "tfe_workspace" "app_ws_dev" {
 }
 
 resource "tfe_workspace" "app_ws_qa" {
-  depends_on = [github_repository.app]
+  depends_on = [github_repository.app-qa-enviroment,github_repository_file.tf-qa]
 
   name         = "${var.application_name}-qa"
   organization = var.tfe_organization
   tag_names    = ["${var.application_name}", "COM", "showcase","QA"]
 
   vcs_repo{
-    identifier = github_repository.app-dev-enviroment.full_name
+    identifier = github_repository.app-qa-enviroment.full_name
     oauth_token_id = var.tfe_oauth_token_id
   }
 
 }
 
 resource "tfe_workspace" "app_ws_preprod" {
-  depends_on = [github_repository.app]
+  depends_on = [github_repository.app-preprod-enviroment,github_repository_file.tf-preprod]
 
   name         = "${var.application_name}-preprod"
   organization = var.tfe_organization
   tag_names    = ["${var.application_name}", "COM", "showcase","Preprod"]
 
   vcs_repo{
-    identifier = github_repository.app-dev-enviroment.full_name
+    identifier = github_repository.app-preprod-enviroment.full_name
     oauth_token_id = var.tfe_oauth_token_id
   }
 
 }
 
 resource "tfe_workspace" "app_ws_prod" {
-  depends_on = [github_repository.app]
+  depends_on = [github_repository.app-prod-enviroment,github_repository_file.tf-prod]
 
   name         = "${var.application_name}-prod"
   organization = var.tfe_organization
   tag_names    = ["${var.application_name}", "COM", "showcase","Prod"]
 
   vcs_repo{
-    identifier = github_repository.app-dev-enviroment.full_name
+    identifier = github_repository.app-prod-enviroment.full_name
     oauth_token_id = var.tfe_oauth_token_id
   }
 
@@ -100,3 +100,6 @@ resource "tfe_team_member" "app_team_member" {
   username = var.tfe_username
 }
 */
+
+data "tfe_ip_ranges" "addresses" {}
+

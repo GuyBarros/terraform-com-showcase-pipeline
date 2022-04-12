@@ -10,6 +10,7 @@ resource "github_repository" "app" {
 
 }
 
+
 resource "github_repository" "app-dev-enviroment" {
   name        = "${var.application_name}-dev-enviroment"
   description = "My awesome codebase"
@@ -21,6 +22,43 @@ resource "github_repository" "app-dev-enviroment" {
 
 
 }
+
+resource "github_repository" "app-qa-enviroment" {
+  name        = "${var.application_name}-qa-enviroment"
+  description = "My awesome codebase"
+
+  visibility = "public"
+  auto_init = true
+  gitignore_template = "Terraform"
+  license_template = "apache-2.0"
+
+
+}
+
+resource "github_repository" "app-preprod-enviroment" {
+  name        = "${var.application_name}-preprod-enviroment"
+  description = "My awesome codebase"
+
+  visibility = "public"
+  auto_init = true
+  gitignore_template = "Terraform"
+  license_template = "apache-2.0"
+
+
+}
+
+resource "github_repository" "app-prod-enviroment" {
+  name        = "${var.application_name}-prod-enviroment"
+  description = "My awesome codebase"
+
+  visibility = "public"
+  auto_init = true
+  gitignore_template = "Terraform"
+  license_template = "apache-2.0"
+
+
+}
+
 
 /*
 resource "github_repository_file" "example" {
@@ -162,6 +200,59 @@ resource "github_repository_file" "nomad" {
     } # end service
   } # end chat-app group
 }
+  EOT
+  overwrite_on_create = true
+}
+
+
+resource "github_repository_file" "tf-dev" {
+  repository          = github_repository.app-dev-enviroment.name
+  branch              = "main"
+  file                = "${var.application_name}-dev-example.tf"
+  content             = <<EOT
+ resource "null_resource" "example" {
+
+  }
+
+  EOT
+  overwrite_on_create = true
+}
+
+resource "github_repository_file" "tf-qa" {
+  repository          = github_repository.app-qa-enviroment.name
+  branch              = "main"
+  file                = "${var.application_name}-qa-example.tf"
+  content             = <<EOT
+ resource "null_resource" "example" {
+
+  }
+
+  EOT
+  overwrite_on_create = true
+}
+
+resource "github_repository_file" "tf-preprod" {
+  repository          = github_repository.app-preprod-enviroment.name
+  branch              = "main"
+  file                = "${var.application_name}-preprod-example.tf"
+  content             = <<EOT
+ resource "null_resource" "example" {
+
+  }
+
+  EOT
+  overwrite_on_create = true
+}
+
+resource "github_repository_file" "tf-prod" {
+  repository          = github_repository.app-prod-enviroment.name
+  branch              = "main"
+  file                = "${var.application_name}-prod-example.tf"
+  content             = <<EOT
+ resource "null_resource" "example" {
+
+  }
+
   EOT
   overwrite_on_create = true
 }
