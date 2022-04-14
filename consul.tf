@@ -33,3 +33,27 @@ resource "consul_acl_policy" "app" {
     RULE
 }
 */
+
+/*
+resource "consul_config_entry" "service_intentions" {
+  name = "api-service"
+  kind = "service-intentions"
+
+  config_json = jsonencode({
+    Sources = [
+      {
+        Action     = "allow"
+        Name       = "frontend-webapp"
+        Precedence = 9
+        Type       = "consul"
+      },
+      {
+        Action     = "allow"
+        Name       = "nightly-cronjob"
+        Precedence = 9
+        Type       = "consul"
+      }
+    ]
+  })
+}
+*/

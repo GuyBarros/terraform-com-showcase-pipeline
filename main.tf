@@ -35,3 +35,8 @@ provider "dockerhub" {
   username = var.docker_hub_username
   password = var.docker_hub_password
 }
+
+# Configure the GitLab Provider
+provider "gitlab" {
+  token = var.gitlab_token
+}

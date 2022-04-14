@@ -91,3 +91,28 @@ variable "docker_hub_password" {
   description = "Docker Hub password"
   sensitive = true
 }
+
+
+variable "gitlab_default_lease_ttl" {
+  type        = string
+  description = "Default lease TTL for Vault tokens"
+  default     = "12h"
+}
+
+variable "gitlab_max_lease_ttl" {
+  type        = string
+  description = "Maximum lease TTL for Vault tokens"
+  default     = "768h"
+}
+
+variable "gitlab_token_type" {
+  type        = string
+  description = "Token type for Vault tokens"
+  default     = "default-service"
+}
+
+variable "gitlab_token" {
+  type        = string
+  description = "Gitlab provider token"
+  sensitive = true
+}

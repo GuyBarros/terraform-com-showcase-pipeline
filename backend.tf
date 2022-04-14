@@ -12,6 +12,11 @@ terraform {
     dockerhub = {
       source = "BarnabyShearer/dockerhub"
     }
+
+    gitlab = {
+      source  = "gitlabhq/gitlab"
+    }
+
   }
 }
 

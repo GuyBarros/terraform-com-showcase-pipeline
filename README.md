@@ -23,5 +23,6 @@ github_provider_token=""
 docker_hub_namespace=""
 docker_hub_username=""
 docker_hub_password=""
+gitlab_token=""
 
 ```

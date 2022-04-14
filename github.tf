@@ -72,6 +72,66 @@ resource "github_repository_file" "example" {
 }
 */
 
+
+resource "github_repository_file" "app-github-action" {
+  repository          = github_repository.app.name
+  branch              = "main"
+  file                = ".github/workflows/packer-builder.yml"
+  content             = <<EOT
+ name: ImageBuilder
+# Run this workflow every time a new commit pushed to your repository
+on: push
+jobs:
+  build:
+    runs-on: self-hosted
+    if: "! contains(github.event.head_commit.message, 'build')"
+    steps:
+      - name: Get AppRole RoleID
+        id: get_aprole_role_id
+        run: echo "::set-output name=roleId::$(vault read -field=role_id auth/approle/role/github/role-id)"
+      - name: Get AppRole SecretID
+        id: get_aprole_secret_id
+        run: echo "::set-output name=secretId::$(vault write -f -field=secret_id auth/approle/role/github/secret-id)"
+      - name: Test AppRole RoleID
+        id: test_aprole_roleid
+        run: echo $${{ steps.get_aprole_role_id.outputs.roleId }}
+      - name: Test AppRole Secret ID
+        id: test_aprole_secretID
+        run: echo $${{ steps.get_aprole_secret_id.outputs.secretId }}
+      - name: Import Secrets
+        id: secrets
+        uses: hashicorp/vault-action@v2.3.1
+        with:
+          url: ${var.vault_address}
+          tlsSkipVerify: true
+          namespace: admin
+          method: approle
+          roleId: $${{ steps.get_aprole_role_id.outputs.roleId }}
+          secretId: $${{ steps.get_aprole_secret_id.outputs.secretId }}
+          secrets: |
+            kv/data/ci_app_secret app_secret | APP_SECRET
+      - name: Build Artifact
+          uses: hashicorp/packer-github-actions@master
+          with:
+            command: build
+            arguments: "-color=false -on-error=abort"
+            target: ${var.application_name}.pkr.hcl
+          env:
+            PACKER_LOG: 1
+EOT
+  overwrite_on_create = true
+}
+
+resource "github_repository_file" "example2" {
+  repository          = github_repository.app.name
+  branch              = "main"
+  file                = ".${var.application_name}/${var.application_name}.example.txt"
+  content             = <<EOT
+ example text to show I can put anything in here
+  EOT
+  overwrite_on_create = true
+}
+
 resource "github_repository_file" "packer" {
   repository          = github_repository.app.name
   branch              = "main"
