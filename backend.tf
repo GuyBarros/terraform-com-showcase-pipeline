@@ -16,6 +16,10 @@ terraform {
     gitlab = {
       source  = "gitlabhq/gitlab"
     }
+        okta = {
+      source  = "okta/okta"
+      version = "~> 3.15"
+    }
 
   }
 }

@@ -3,7 +3,8 @@ data "github_user" "current" {
 }
 
 resource "vault_jwt_auth_backend" "github" {
-    provider = vault.app
+provider = vault.app
+path = "github_jwt"
 description = "oidc auth backend for github actions"
 oidc_discovery_url="https://token.actions.githubusercontent.com"
 bound_issuer="https://token.actions.githubusercontent.com"
@@ -23,7 +24,7 @@ resource "vault_jwt_auth_backend_role" "demo"{
     backend = vault_jwt_auth_backend.github.path
     role_type = "jwt"
     role_name = "demo"
-    token_policies = ["default", "hcp-root"]
+    token_policies = ["default", "hcp-root","superadmin"]
     bound_claims = {
          "sub" = "repo:${github_repository.app.full_name}:ref:refs/*"
     }
