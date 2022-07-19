@@ -1,6 +1,9 @@
 # terraform-com-showcase-pipeline
 a demo enviroment that creates a githup repo, a TF Workspace, a Vault namespace and OKTA SSO App all integrated.
 
+![Solution Diagram](./assets/overview.png)
+
+
 the main variable this code needs is *application_name*, with the tfvars bellow, application_name will be a variable passed in at runtime.
 
 
